@@ -26,16 +26,18 @@ const transactionSchema = Schema({
     balance: {
         type: Number,
         required: true,
+    },
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: "user"
     }
 })
 
 const transactionJoiSchema = Joi.object({
-    date: Joi.date().required(),
-    transType: Joi.string().required(),
+    transType: Joi.boolean().required(),
     category: Joi.string().required(),
-    comment: Joi.string().required(),
+    comment: Joi.string(),
     sum: Joi.number().required(),
-    balance: Joi.number().required()
 })
 
 
