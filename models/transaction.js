@@ -4,7 +4,8 @@ const Joi = require("joi");
 
 const transactionSchema = Schema({
     date: {
-        type: new Date(),
+        type: Date,
+        default: Date.now,
         required: true,
     },
     transType: {
