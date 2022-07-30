@@ -1,8 +1,8 @@
 const { Schema, model } = require("mongoose");
-// можна використи 2 спосіб збереження користувача в базі з хешированим паролем
 const bcrypt = require("bcryptjs");
-// в цьому ж файлі зручно робити схему перевірку джоі
 const Joi = require("joi");
+
+// const strongRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
 
 const userSchema = Schema(
   {
@@ -43,24 +43,45 @@ userSchema.methods.comparePassword = function (password) {
 // створюємо джоі-схему
 const joiRegisterSchema = Joi.object({
   name: Joi.string().min(1).max(12).required(),
-  // у джоя есть свій варіант емейла, в якому теж аикористовується регулярний вираз, тому краще все таки використовувати патерн,
-  // якщо ми захочемо добавити в модель свій регулярний вираз, то ми не можемо бути впевнені, що вони співпадуть з виразом в джої
-  //   email: Joi.string().email().required(),
-  //   email: Joi.string().patten().required(),
-  email: Joi.string().required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru", "su", "рус", "рф", "москва"] } })
+    .error((errors) => new Error("enter valid email except .ru"))
+    .min(6)
+    .required(),
   password: Joi.string().min(6).max(12).required(),
+  // password: Joi.string()
+  //   .min(6)
+  //   .max(12)
+  //   .pattern(strongRegex)
+  //   .error(
+  //     (errors) =>
+  //       new Error(
+  //         "паспорт має містити латинські літери - хоча б 1 прописну, 1 заглавну, 1 цифру і бути не менше 6 та не більше 12 символів  "
+  //       )
+  //   )
+  //   .required(),
 });
 
 const joiLoginSchema = Joi.object({
-  email: Joi.string().required(),
+  email: Joi.string()
+    .email({ tlds: { deny: ["ru", "su", "рус", "рф", "москва"] } })
+    .error((errors) => new Error("enter valid email except .ru"))
+    .min(6)
+    .required(),
+  // password: Joi.string()
+  //   .min(6)
+  //   .max(16)
+  //   .pattern(strongRegex)
+  //   .error(
+  //     (errors) =>
+  //       new Error(
+  //         "паспорт має містити латинські літери - хоча б 1 прописну, 1 заглавну, 1 цифру і бути не менше 6 та не більше 16 символів  "
+  //       )
+  //   )
+  //   .required(),
   password: Joi.string().min(6).max(12).required(),
 });
-// нова схема для патча, де перевіряється лише одне поле , яке ми обновляємо - статус, наприклад
-// const statusJoiSchema = Joi.object({
-//   status: Joi.string().valid("basic", "sale", "stock").required(),
-// });
 
-// щоб створити модель ми функції модел  передаємо назву колекції з якою будемо працювати в однині, та назву схеми
 const User = model("user", userSchema);
 
 module.exports = {
