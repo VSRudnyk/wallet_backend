@@ -1,17 +1,14 @@
-const {Schema, model} = require("mongoose");
-const Joi = require("joi");
+const { Schema, mongoose, model } = require('mongoose');
+const Joi = require('joi');
 
 const sessionSchema = Schema({
-  uid: {
-    type: String,
-    required: true,
-  }
+  uid: mongoose.Types.ObjectId,
 });
 
 const joiSessionSchema = Joi.object({
-  uid: Joi.string().required(),
-})
+  sid: Joi.string().required(),
+});
 
-const Session = model("session", sessionSchema)
+const Session = model('session', sessionSchema);
 
-module.exports = {Session, joiSessionSchema}
+module.exports = { Session, joiSessionSchema };
