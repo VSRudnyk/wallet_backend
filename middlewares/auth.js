@@ -8,7 +8,6 @@ const { User, Session } = require('../models');
 const { JWT_ACCESS_SECRET_KEY } = process.env;
 const auth = async (req, res, next) => {
   const authorizationHeader = req.get('Authorization');
-
   if (authorizationHeader) {
     const accessToken = authorizationHeader.replace('Bearer ', '');
     let payload = {};
@@ -31,7 +30,7 @@ const auth = async (req, res, next) => {
     req.user = user;
     req.session = session;
     next();
-  } else throw new BadRequest('No token provided');
+  } else return res.status(400).send({ message: 'No token provided' });
 };
 
 
