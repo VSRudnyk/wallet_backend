@@ -1,10 +1,11 @@
 // обробник маршрутів, що стосуються авторизації та реєстрації, тут будуть всі запити по цьому
 const express = require("express");
-const { ctrlWrapper } = require("../../helpers");
-const { auth, validation } = require("../../middlewares");
+const {ctrlWrapper} = require("../../helpers");
+const {auth, validation} = require("../../middlewares");
 // const { auth, validation, ctrlWrapper } = require("../../middlewares");
-const { auth: ctrl } = require("../../controllers");
-const { joiLoginSchema, joiRegisterSchema } = require("../../models/user");
+const {auth: ctrl} = require("../../controllers");
+const {joiLoginSchema, joiRegisterSchema} = require("../../models/user");
+const {joiSessionSchema} = require("../../models/session")
 const router = express.Router();
 // напишемо запит на реєстрацію - це пост -запити, тому що секретні дані передаються в тілі запиту
 // зазвичайпишуть регістер, але можна і сайнап
@@ -19,5 +20,6 @@ router.post("/login", validation(joiLoginSchema), ctrlWrapper(ctrl.login));
 // маршрут для розлогінення користувача (може бути пост, може гет, бо немає тіла запиту)
 // щоб розлогінити користувача треба знати, хто хоче розлогінитись, тобто знати інфу про залогіненого користувача, тому беремо мідлвару аус, провіряємо хто це
 router.get("/logout", auth, ctrlWrapper(ctrl.logout));
+router.post("/refresh", validation(joiSessionSchema), ctrlWrapper(ctrl.refreshTokens))
 
 module.exports = router;
