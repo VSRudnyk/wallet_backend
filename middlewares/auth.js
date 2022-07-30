@@ -1,4 +1,3 @@
-const { Unauthorized, NotFound } = require('http-errors');
 const jwt = require('jsonwebtoken');
 // ця мідлвара виконує кілька задач:
 // 1. перевіряє валідність токена, тобто що ми його видали та що його термін не витік
@@ -14,17 +13,17 @@ const auth = async (req, res, next) => {
     try {
       payload = jwt.verify(accessToken, JWT_ACCESS_SECRET_KEY);
     } catch (err) {
-      throw new Unauthorized('Not authorized');
+      return res.status(401).send({ message: 'Unauthorized' });
     }
 
     const user = await User.findById(payload.uid);
     const session = await Session.findById(payload.sid);
 
     if (!user) {
-      throw new NotFound('Invalid user');
+      return res.status(404).send({ message: 'Invalid user' });
     }
     if (!session) {
-      throw new NotFound('Invalid session');
+      return res.status(404).send({ message: 'Invalid session' });
     }
 
     req.user = user;
