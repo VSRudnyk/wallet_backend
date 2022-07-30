@@ -1,7 +1,8 @@
-const { User } = require("../../models");
+const { Session } = require('../../models');
+
 const logout = async (req, res) => {
-  const { _id } = req.user;
-  await User.findByIdAndUpdate(_id, { token: null });
+  const currentSession = req.session;
+  await Session.deleteOne({ _id: currentSession._id });
   res.status(204).json();
 };
 
