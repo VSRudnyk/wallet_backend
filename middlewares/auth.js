@@ -1,4 +1,4 @@
-const { Unauthorized, NotFound, BadRequest } = require('http-errors');
+const { Unauthorized, NotFound } = require('http-errors');
 const jwt = require('jsonwebtoken');
 // ця мідлвара виконує кілька задач:
 // 1. перевіряє валідність токена, тобто що ми його видали та що його термін не витік
