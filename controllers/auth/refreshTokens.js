@@ -40,7 +40,7 @@ const refreshTokens = async (req, res) => {
       sid: newSession._id,
     }, JWT_REFRESH_SECRET_KEY, { expiresIn: '30d' });
 
-    res.json(
+    return res.json(
       {
         status: 'success',
         code: 200,

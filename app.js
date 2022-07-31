@@ -8,6 +8,8 @@ const usersRouter = require('./routes/api/users');
 const transactionsRouter = require('./routes/api/transactions');
 const currencyRouter = require('./routes/api/currency');
 const categoriesRouter = require('./routes/api/categories');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger.json');
 
 const app = express();
 
@@ -24,6 +26,7 @@ app.use('/api/users', usersRouter);
 app.use('/api/transactions', transactionsRouter);
 app.use('/api/currency', currencyRouter);
 app.use('/api/categories', categoriesRouter);
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 
 app.use((req, res) => {
