@@ -21,7 +21,7 @@ app.use(express.json());
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/transactions', transactionsRouter);
-app.use('/api/wallet_frontend', currencyRouter);
+app.use('/api/currency', currencyRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });
