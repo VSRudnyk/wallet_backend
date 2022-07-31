@@ -2,8 +2,9 @@ const { Schema, mongoose, model } = require('mongoose');
 const Joi = require('joi');
 
 const sessionSchema = Schema({
-  uid: mongoose.Types.ObjectId,
-});
+    uid: mongoose.Types.ObjectId,
+  },
+  { versionKey: false, timestamps: true });
 
 const joiSessionSchema = Joi.object({
   sid: Joi.string().required(),
