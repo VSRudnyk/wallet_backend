@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.get("/", auth, ctrlWrapper(ctrl.getTransactions));
 router.post("/", auth, validation(transactionJoiSchema), ctrlWrapper(ctrl.setTransaction));
-router.delete("/:id", ctrlWrapper(ctrl.delTransaction));
+router.delete("/:id", auth, ctrlWrapper(ctrl.delTransaction));
 
 
 module.exports = router;
