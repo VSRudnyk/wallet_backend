@@ -2,19 +2,24 @@ const { Schema, model } = require('mongoose');
 
 const Joi = require('joi');
 
+const groups = ["Main", "Food", "Auto", "Reset", "Development", "Children", "House", "Education" ]
+
 const transactionSchema = Schema({
   date: {
     type: Date,
     default: Date.now,
     required: true,
   },
-  transType: {
+  type: {
     type: String,
     enum: ['income', 'expense'],
     required: true,
   },
   category: {
     type: String,
+    enum: groups,
+    default: 'Main',
+    required: true
   },
   comment: {
     type: String,
@@ -32,8 +37,8 @@ const transactionSchema = Schema({
 }, { versionKey: false });
 
 const transactionJoiSchema = Joi.object({
-  transType: Joi.string().valid('income', 'expense').required(),
-  category: Joi.string().required(),
+  type: Joi.string().valid('income', 'expense').required(),
+  category: Joi.string().required().default('Main'),
   comment: Joi.string(),
   sum: Joi.number().required(),
   balance: Joi.number().required(),
