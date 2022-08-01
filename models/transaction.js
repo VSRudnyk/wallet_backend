@@ -2,8 +2,6 @@ const { Schema, model } = require('mongoose');
 
 const Joi = require('joi');
 
-const groups = ["Main", "Food", "Auto", "Reset", "Development", "Children", "House", "Education" ]
-
 const transactionSchema = Schema({
   date: {
     type: Date,
@@ -17,8 +15,6 @@ const transactionSchema = Schema({
   },
   category: {
     type: String,
-    enum: groups,
-    default: 'Main',
     required: true
   },
   comment: {
