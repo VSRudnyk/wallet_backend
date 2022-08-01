@@ -40,7 +40,6 @@ const transactionJoiSchema = Joi.object({
   balance: Joi.number().required(),
 });
 
-
 const Transaction = model('transaction', transactionSchema);
 
 module.exports = {
