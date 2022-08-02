@@ -6,7 +6,7 @@ const getCategories = async (req, res) => {
   {
     '$match': {
       'owner': _id, 
-      'type': 'income'
+      'type': 'expense'
     }
   }, {
     '$group': {
