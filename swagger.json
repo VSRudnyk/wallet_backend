@@ -18,6 +18,9 @@
   "servers": [
     {
       "url": "https://wallet-backend-1.herokuapp.com/api/"
+    },
+    {
+      "url": "http://localhost:3000/api/"
     }
   ],
   "tags": [
@@ -36,6 +39,10 @@
     {
       "name": "Exchange rate",
       "description": "Exchange rate from Privat bank API"
+    },
+    {
+      "name": "Categories",
+      "description": "Categories endpoints"
     }
   ],
   "paths": {
@@ -360,6 +367,44 @@
           }
         }
       }
+    },
+    "/categories": {
+      "get": {
+        "tags": [
+          "Categories"
+        ],
+        "summary": "Get categories",
+        "security": [
+          {
+            "Bearer": []
+          }
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetCategoriesResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request (invalid request body) / No token provided",
+            "content": {}
+          },
+          "401": {
+            "description": "Unauthorized (invalid access token)",
+            "content": {}
+          },
+          "404": {
+            "description": "Invalid user / Invalid session",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -386,88 +431,6 @@
             "type": "string",
             "description": "User's password",
             "example": "qwerty123"
-          }
-        }
-      },
-      "RefreshTokensRequest": {
-        "type": "object",
-        "required": [
-          "sid"
-        ],
-        "properties": {
-          "sid": {
-            "type": "string",
-            "description": "Session's id ('sid' field after authentication)",
-            "example": "507f1f77bcf86cd799439011"
-          }
-        }
-      },
-      "LoginRequest": {
-        "type": "object",
-        "required": [
-          "email",
-          "password"
-        ],
-        "properties": {
-          "email": {
-            "type": "string",
-            "description": "User's email",
-            "format": "email"
-          },
-          "password": {
-            "type": "string",
-            "description": "User's password",
-            "example": "qwerty123"
-          }
-        }
-      },
-      "PostTransactionsRequest": {
-        "type": "object",
-        "required": [
-          "type",
-          "category",
-          "sum",
-          "balance"
-        ],
-        "properties": {
-          "type": {
-            "type": "string",
-            "oneOf": [
-              "income",
-              "expense"
-            ],
-            "description": "transaction type",
-            "example": "income"
-          },
-          "category": {
-            "type": "string",
-            "oneOf": [
-              "Main",
-              "Food",
-              "Auto",
-              "Reset",
-              "Development",
-              "Children",
-              "House",
-              "Education"
-            ],
-            "description": "transaction category",
-            "example": "Main"
-          },
-          "comment": {
-            "type": "string",
-            "description": "user comment for transaction",
-            "example": "Bonus for work"
-          },
-          "sum": {
-            "type": "integer",
-            "description": "transaction sum",
-            "example": "3000"
-          },
-          "balance": {
-            "type": "integer",
-            "description": "transaction balance",
-            "example": "25000"
           }
         }
       },
@@ -504,6 +467,25 @@
                 }
               }
             }
+          }
+        }
+      },
+      "LoginRequest": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "User's email",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "description": "User's password",
+            "example": "qwerty123"
           }
         }
       },
@@ -555,6 +537,19 @@
                 }
               }
             }
+          }
+        }
+      },
+      "RefreshTokensRequest": {
+        "type": "object",
+        "required": [
+          "sid"
+        ],
+        "properties": {
+          "sid": {
+            "type": "string",
+            "description": "Session's id ('sid' field after authentication)",
+            "example": "507f1f77bcf86cd799439011"
           }
         }
       },
@@ -611,6 +606,56 @@
                 }
               }
             }
+          }
+        }
+      },
+      "PostTransactionsRequest": {
+        "type": "object",
+        "required": [
+          "type",
+          "category",
+          "sum",
+          "balance"
+        ],
+        "properties": {
+          "type": {
+            "type": "string",
+            "oneOf": [
+              "income",
+              "expense"
+            ],
+            "description": "transaction type",
+            "example": "income"
+          },
+          "category": {
+            "type": "string",
+            "oneOf": [
+              "Main",
+              "Food",
+              "Auto",
+              "Reset",
+              "Development",
+              "Children",
+              "House",
+              "Education"
+            ],
+            "description": "transaction category",
+            "example": "Main"
+          },
+          "comment": {
+            "type": "string",
+            "description": "user comment for transaction",
+            "example": "Bonus for work"
+          },
+          "sum": {
+            "type": "integer",
+            "description": "transaction sum",
+            "example": "3000"
+          },
+          "balance": {
+            "type": "integer",
+            "description": "transaction balance",
+            "example": "25000"
           }
         }
       },
@@ -716,6 +761,61 @@
             "type": "string",
             "description": "date of creation transaction in the format Date.now",
             "example": "2022-07-31T14:07:22.272Z"
+          }
+        }
+      },
+      "GetCategoriesResponse": {
+        "type": "object",
+        "properties": {
+          "_id": {
+            "type": "object",
+            "description": "category id",
+            "example": {
+              "month": 7,
+              "year": 2022
+            },
+            "properties": {
+              "month": {
+                "type": "string",
+                "description": "month of creation transaction ",
+                "example": "7"
+              },
+              "year": {
+                "type": "string",
+                "description": "year of creation transaction ",
+                "example": "2022"
+              }
+            }
+          },
+          "totalPrice": {
+            "type": "number",
+            "description": "totalPrice category",
+            "example": 6800
+          },
+          "category": {
+            "type": "array",
+            "description": "transaction category",
+            "items": {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "type": "string",
+                  "description": "category",
+                  "example": "car"
+                },
+                "sum": {
+                  "type": "number",
+                  "description": "sum",
+                  "example": 200
+                }
+              }
+            },
+            "example": [
+              {
+                "category": "car",
+                "sum": 200
+              }
+            ]
           }
         }
       }
