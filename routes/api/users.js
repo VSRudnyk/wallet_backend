@@ -1,10 +1,10 @@
 // обробник маршрутів, що стосуються вибраного користувача, тут будуть всі запити по цьому
-const express = require("express");
+const express = require('express');
 
 // const { validation, ctrlWrapper } = require("../../middlewares");
-const { auth, ctrlWrapper } = require("../../middlewares");
-
-const { users: ctrl } = require("../../controllers");
+const { auth } = require('../../middlewares');
+const { ctrlWrapper } = require('../../helpers');
+const { users: ctrl } = require('../../controllers');
 // const { joiLoginSchema, joiRegisterSchema } = require("../../models/user");
 const router = express.Router();
 // напишемо запит на вибраного користувача - це гет -запит
@@ -17,7 +17,7 @@ const router = express.Router();
 //   ctrlWrapper(ctrl.getCurrent)
 // );
 
-router.get("/current", auth, ctrlWrapper(ctrl.getCurrent));
+router.get('/current', auth, ctrlWrapper(ctrl.getCurrent));
 // маршрут для обновлення аватара, обовязково мідлвара аус - не може отримати аватарку той хто ще не залогінився,
 //  а другу передаємо мідлвару малтер
 // router.patch(
