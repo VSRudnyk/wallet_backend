@@ -23,7 +23,10 @@ const getCategories = async (req, res) => {
           $sum: '$sum',
         },
         category: {
-          $addToSet: '$category',
+          $push: {
+            category: '$category',
+            sum: '$sum',
+          },
         },
       },
     },

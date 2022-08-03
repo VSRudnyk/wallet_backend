@@ -2,37 +2,40 @@ const { Schema, model } = require('mongoose');
 
 const Joi = require('joi');
 
-const transactionSchema = Schema({
-  date: {
-    type: Date,
-    default: Date.now,
-    required: true,
+const transactionSchema = Schema(
+  {
+    date: {
+      type: Date,
+      required: true,
+    },
+    type: {
+      type: String,
+      enum: ['income', 'expense'],
+      required: true,
+    },
+    category: {
+      type: String,
+      required: true,
+    },
+    comment: {
+      type: String,
+    },
+    sum: {
+      type: Number,
+    },
+    balance: {
+      type: Number,
+    },
+    owner: {
+      type: Schema.Types.ObjectId,
+      ref: 'user',
+    },
   },
-  type: {
-    type: String,
-    enum: ['income', 'expense'],
-    required: true,
-  },
-  category: {
-    type: String,
-    required: true
-  },
-  comment: {
-    type: String,
-  },
-  sum: {
-    type: Number,
-  },
-  balance: {
-    type: Number,
-  },
-  owner: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
-  },
-}, { versionKey: false });
+  { versionKey: false }
+);
 
 const transactionJoiSchema = Joi.object({
+  date: Joi.date().required(),
   type: Joi.string().valid('income', 'expense').required(),
   category: Joi.string().required().default('Main'),
   comment: Joi.string(),
