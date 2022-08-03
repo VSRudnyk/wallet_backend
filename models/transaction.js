@@ -32,6 +32,7 @@ const transactionSchema = Schema({
 }, { versionKey: false });
 
 const transactionJoiSchema = Joi.object({
+  date: Joi.string(),
   type: Joi.string().valid('income', 'expense').required(),
   category: Joi.string().required().default('Main'),
   comment: Joi.string(),
