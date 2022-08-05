@@ -19,8 +19,6 @@ app.use(logger(formatsLogger));
 app.use(cors());
 app.use(express.json());
 
-// для реєстрації та авторизації будуть окремі роути - auth -це загальнопринята назва для маршруту авторизації
-// окремий ендпойнт
 app.use('/api/auth', authRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/transactions', transactionsRouter);
