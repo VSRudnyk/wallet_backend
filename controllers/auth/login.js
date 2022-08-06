@@ -18,7 +18,7 @@ const login = async (req, res) => {
   const accessToken = jwt.sign(
     { uid: user._id, sid: newSession._id },
     JWT_ACCESS_SECRET_KEY,
-    { expiresIn: 30 },
+    { expiresIn: '1h' },
   );
   const refreshToken = jwt.sign(
     { uid: user._id, sid: newSession._id },
