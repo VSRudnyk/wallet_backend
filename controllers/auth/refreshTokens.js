@@ -4,14 +4,14 @@ const jwt = require('jsonwebtoken');
 const { JWT_ACCESS_SECRET_KEY, JWT_REFRESH_SECRET_KEY } = process.env;
 
 const refreshTokens = async (req, res) => {
-  const authorizationHeader = req.headers.cookie;
+  const authorizationHeader = req.get('Authorization');
   if (authorizationHeader) {
     const activeSession = await Session.findById(req.body.sid);
     if (!activeSession) {
       throw new NotFound('Invalid session');
     }
 
-    const reqRefreshToken = authorizationHeader.replace('refreshToken=', '');
+    const reqRefreshToken = authorizationHeader.replace('Bearer ', '');
 
     let payload = {};
     try {
@@ -41,13 +41,6 @@ const refreshTokens = async (req, res) => {
       sid: newSession._id,
     }, JWT_REFRESH_SECRET_KEY, { expiresIn: '30d' });
 
-    res.cookie('refreshToken', newRefreshToken, {
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: 'none',
-      secure: true,
-    });
-
     res.json(
       {
         status: 'success',
@@ -55,6 +48,7 @@ const refreshTokens = async (req, res) => {
         data: {
           newSid: newSession._id,
           newAccessToken,
+          newRefreshToken,
         },
       },
     );
