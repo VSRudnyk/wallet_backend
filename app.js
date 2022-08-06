@@ -2,7 +2,6 @@ const express = require('express');
 const logger = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
-const cookieParser = require('cookie-parser');
 
 const authRouter = require('./routes/api/auth');
 const usersRouter = require('./routes/api/users');
@@ -31,7 +30,6 @@ app.use('/api/transactions', transactionsRouter);
 app.use('/api/currency', currencyRouter);
 app.use('/api/categories', categoriesRouter);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
-app.use(cookieParser());
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found' });

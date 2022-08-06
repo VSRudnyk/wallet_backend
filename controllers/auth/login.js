@@ -27,19 +27,13 @@ const login = async (req, res) => {
   );
   await User.findByIdAndUpdate(user._id);
 
-  res.cookie('refreshToken', refreshToken, {
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-    httpOnly: true,
-    sameSite: 'none',
-    secure: true,
-  });
-
   res.json({
     status: 'success',
     code: 200,
     data: {
       sid: newSession._id,
       accessToken,
+      refreshToken,
       user: {
         email,
         name: user.name,
