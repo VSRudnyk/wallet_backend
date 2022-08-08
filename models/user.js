@@ -9,18 +9,21 @@ const userSchema = Schema(
     name: {
       type: String,
       minlength: 1,
-      maxLength: 12,
+      maxLength: 16,
       required: true,
     },
     email: {
       type: String,
       required: true,
       unique: true,
+      minlength: 6,
+      maxLength: 63,
     },
     password: {
       type: String,
       required: true,
       minlength: 6,
+      maxLength: 12,
     },
   },
   { versionKey: false, timestamps: true }
@@ -40,6 +43,7 @@ const joiRegisterSchema = Joi.object({
     .email({ tlds: { deny: ['ru', 'su', 'рус', 'рф', 'москва'] } })
     .error(errors => new Error('enter valid email except .ru'))
     .min(6)
+    .max(63)
     .required(),
   password: Joi.string()
     .min(6)
@@ -59,10 +63,11 @@ const joiLoginSchema = Joi.object({
     .email({ tlds: { deny: ['ru', 'su', 'рус', 'рф', 'москва'] } })
     .error(errors => new Error('enter valid email except .ru'))
     .min(6)
+    .max(63)
     .required(),
   password: Joi.string()
     .min(6)
-    .max(16)
+    .max(12)
     .pattern(strongRegex)
     .error(
       errors =>
