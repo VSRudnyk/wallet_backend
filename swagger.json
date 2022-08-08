@@ -770,11 +770,12 @@
           "_id": {
             "type": "object",
             "description": "category id",
-            "example": {
-              "month": 7,
-              "year": 2022
-            },
             "properties": {
+              "type": {
+                "type": "string",
+                "description": "category type ",
+                "example": "expense"
+              },
               "month": {
                 "type": "string",
                 "description": "month of creation transaction ",
@@ -809,13 +810,7 @@
                   "example": 200
                 }
               }
-            },
-            "example": [
-              {
-                "category": "car",
-                "sum": 200
-              }
-            ]
+            }
           }
         }
       }
