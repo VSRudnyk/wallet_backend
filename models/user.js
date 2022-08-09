@@ -26,14 +26,14 @@ const userSchema = Schema(
       maxLength: 12,
     },
   },
-  { versionKey: false, timestamps: true }
+  { versionKey: false, timestamps: true },
 );
 
-userSchema.methods.setPassword = function (password) {
+userSchema.methods.setPassword = function(password) {
   this.password = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
 };
 
-userSchema.methods.comparePassword = function (password) {
+userSchema.methods.comparePassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
 
@@ -49,12 +49,11 @@ const joiRegisterSchema = Joi.object({
     .min(6)
     .max(12)
     .pattern(strongRegex)
-    .error(
-      errors =>
-        new Error(
-          'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters '
-        )
-    )
+    .message({
+      'string.pattern.base': 'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters',
+      'string.min': 'minimum 6 character required',
+      'string.max': 'maximum 12 characters allowed',
+    })
     .required(),
 });
 
@@ -69,12 +68,11 @@ const joiLoginSchema = Joi.object({
     .min(6)
     .max(12)
     .pattern(strongRegex)
-    .error(
-      errors =>
-        new Error(
-          'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters '
-        )
-    )
+    .message({
+      'string.pattern.base': 'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters',
+      'string.min': 'minimum 6 character required',
+      'string.max': 'maximum 12 characters allowed',
+    })
     .required(),
 });
 
