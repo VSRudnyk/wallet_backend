@@ -23,7 +23,6 @@ const userSchema = Schema(
       type: String,
       required: true,
       minlength: 6,
-      maxLength: 12,
     },
   },
   { versionKey: false, timestamps: true }
