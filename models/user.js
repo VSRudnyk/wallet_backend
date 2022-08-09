@@ -49,12 +49,9 @@ const joiRegisterSchema = Joi.object({
     .min(6)
     .max(12)
     .pattern(strongRegex)
-    .error(
-      errors =>
-        new Error(
-          'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters '
-        )
-    )
+    .error(errors => {
+      throw new Error(errors);
+    })
     .required(),
 });
 
@@ -69,12 +66,9 @@ const joiLoginSchema = Joi.object({
     .min(6)
     .max(12)
     .pattern(strongRegex)
-    .error(
-      errors =>
-        new Error(
-          'the passport must contain Latin letters - at least 1 uppercase, 1 uppercase, 1 number and be at least 6 characters '
-        )
-    )
+    .error(errors => {
+      throw new Error(errors);
+    })
     .required(),
 });
 
