@@ -7,7 +7,7 @@ const year = date.getFullYear();
 
 const getCurrency = async (req, res) => {
   const data = await axios(
-    `https://api.privatbank.ua/p24api/exchange_rates?json&date=${day}.${month}.${year}`
+    `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json`
   );
   res.status(200).json(data.data);
 };
