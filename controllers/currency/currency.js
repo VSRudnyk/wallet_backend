@@ -1,13 +1,16 @@
 const { default: axios } = require('axios');
 
 const date = new Date();
-const day = date.getDay();
-const month = date.getMonth() + 1;
 const year = date.getFullYear();
+let month = date.getMonth() + 1;
+let day = date.getDate();
+
+if (day < 10) day = '0' + day;
+if (month < 10) month = '0' + month;
 
 const getCurrency = async (req, res) => {
   const data = await axios(
-    `https://bank.gov.ua/NBUStatService/v1/statdirectory/exchangenew?json`
+    `https://api.privatbank.ua/p24api/exchange_rates?date=${day}.${month}.${year}`
   );
   res.status(200).json(data.data);
 };
