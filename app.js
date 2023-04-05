@@ -16,7 +16,7 @@ const app = express();
 const formatsLogger = app.get('env') === 'development' ? 'dev' : 'short';
 
 const corsOptions = {
-  origin: ['http://localhost:3000'],
+  origin: true,
   credentials: true,
 };
 
